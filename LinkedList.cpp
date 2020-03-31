@@ -1,6 +1,12 @@
 #include <iostream>
 using namespace std;
 
+struct ListNode{
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr){}
+};
+
 class Node{
     public:
         Node* next;
@@ -49,6 +55,19 @@ void InsertAfter(Node* prevNode,int data){
     Node* newNode = new Node(data);
     newNode->next = prevNode->next;
     prevNode->next = newNode;
+}
+
+void AppendStruct(ListNode** root,int data){
+    if(!*root){
+        *root = new ListNode(data);
+        return;
+    }
+
+    ListNode* conductor = *root;
+    while(conductor->next != nullptr)
+        conductor = conductor->next;
+
+    conductor->next = new ListNode(data);
 }
 
 int main(){

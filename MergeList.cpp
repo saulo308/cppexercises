@@ -1,96 +1,69 @@
 #include <iostream>
 using namespace std;
 
-class Node{
-    public:
-        int val;
-        Node* next;
-        Node(){
-            next = nullptr;
-        }
-        Node(int newData){
-            val = newData;
-            next = nullptr;
-        }
+struct ListNode{
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x),next(nullptr){}
 };
 
-/* void Append(Node* node,int data){
-    //Empty list passed
-    if(!node){
-        node = new Node(data);
-        return;
-    } 
-
-    //New node has to be created
-    Node* newNode = new Node(data);
-    while(node->next != nullptr){
-        node = node->next;
-    }
-    node->next = newNode;
-}
- */
-/* void Push(Node** node,int data){
-    Node* newNode = new Node(data);
-    newNode->next = *node;
-    *node = newNode;
-} */
-
-void Append(Node** list,int data){
-    if(*list == nullptr){
-        *list = new Node(data);
+void Append(ListNode** l1,int data){
+    if(!*l1){
+        *l1 = new ListNode(data);
     }else{
-        Node* newNode = new Node(data);
-        while((*list)->next != nullptr)
-            *list = (*list)->next;
+        ListNode* conductor = *l1;
 
-        (*list)->next = newNode;
+        while(conductor->next != nullptr)
+            conductor = conductor->next;
+
+        conductor->next = new ListNode(data);
     }
 }
 
-void PrintList(Node* head){
-    while(head != nullptr){
-        cout << head->val << endl;
-        head = head->next;
+void PrintList(ListNode* root){
+    while(root != nullptr){
+        cout << root->val << endl;
+        root = root->next;
     }
 }
 
-/* Node* mergeTwoLists(Node* l1,Node* l2){
-    Node* newList = new Node();
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2){
+    ListNode* result = nullptr;
 
-    while(l1 != nullptr || l2 != nullptr){
+    while(l1 || l2){
         if(l1 && l2){
             if(l1->val <= l2->val){
-                Append(newList,l1->val);
+                Append(&result,l1->val);
                 l1 = l1->next;
             }else{
-                Append(newList,l2->val);
+                Append(&result,l2->val);
                 l2 = l2->next;
             }
-        }else if(!l1 && l2){
-            Append(newList,l2->val);
-            l2 = l2->next;
         }else if(l1 && !l2){
-            Append(newList,l1->val);
+            Append(&result,l1->val);
             l1 = l1->next;
+        }else if(!l1 && l2){
+            Append(&result,l2->val);
+            l2 = l2->next;
         }
     }
     
-    return newList;
-} */
+    return result;
+}
+
 
 int main(){
-    Node* ListA = nullptr;
-    Append(&ListA,1);
-    Append(&ListA,2);
-    Append(&ListA,4);
-    PrintList(ListA);
+    ListNode* l1 = nullptr;
+    Append(&l1,1);
+    Append(&l1,2);
+    Append(&l1,4);
+    ListNode* l2 = nullptr;
+    Append(&l2,1);
+    Append(&l2,3);
+    Append(&l2,4);
 
-   /*  Node* ListB = new Node(1);
-    Append(ListB,3);
-    Append(ListB,4); */
-
-    //Node* newList = mergeTwoLists(ListA,ListB);
-    //PrintList(newList);
+    ListNode* newList = mergeTwoLists(l1,l2);
+    PrintList(newList);
 
     return 0;
 }
